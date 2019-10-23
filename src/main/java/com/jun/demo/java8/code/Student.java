@@ -14,6 +14,9 @@ public class Student {
     private Integer age;
     private Integer sex;
 
+    public Student() {
+    }
+
     public Student(String name, Integer age, Integer sex) {
         this.name = name;
         this.age = age;

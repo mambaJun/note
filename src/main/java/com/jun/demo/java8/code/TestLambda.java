@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author Jun
@@ -16,6 +17,8 @@ public class TestLambda {
     public void test() {
         Integer operation = operation(100, x -> x * x);
         System.out.println(operation);
+        Student student = studentList.get(0);
+        Supplier age = student::getAge;
     }
 
     Integer operation(Integer num, MyFun fun) {
