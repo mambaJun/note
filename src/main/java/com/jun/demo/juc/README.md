@@ -11,9 +11,9 @@
         2、volatile 不能保证变量的“原子性”（原子性：数据的不可拆分）
             
 ## 三、原子变量 -CAS 算法
-    原子变量：jdk1.5 后[jdk1.5 后java.util.concurrent.atomic](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html) 包下提供常用的原子变量
-    - 1.volatile 保证 内存可见性
-    - 2.CAS (Compare-And-Swap)算法保证数据的原子性
+原子变量：jdk1.5 后[jdk1.5 后java.util.concurrent.atomic](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html) 包下提供常用的原子变量
+- 1.volatile 保证 内存可见性
+- 2.CAS (Compare-And-Swap)算法保证数据的原子性
 ```text
         CAS 算法 是 硬件对于 并发操作共享数据的支持
         CAS 包含三个操作数
@@ -28,7 +28,9 @@
 - CopyOnWriteArrayList/CopyOnWriteArraySet
     注意：
         添加操作多时，效率低。因为每次添加都会进行复制，开销非常大。并发迭代操作多少可以选择。
+        
 ## 五、CountDownLatch闭锁
+闭锁，在完成某些运算时，只有其他所有线程的运算全部完成，当且运算才继续执行
 ## 六、实现Callable 接口
 ## 七、Lock同步锁
 ## 八、Condition 控制线程通信
@@ -36,5 +38,5 @@
 ## 十、线程按序交换
 ## 十一、ReadWriteLock 读写锁
 ## 十二、线程池
-##　十三、线程调度
+## 十三、线程调度
 ## 十四、ForkJoinPool 分支、合并 框架工作窃取
