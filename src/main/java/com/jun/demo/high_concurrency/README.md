@@ -220,7 +220,8 @@ public class Escape {
     ```
     - 将对象的引用保存到某个正确构造对象的final类型域中
     - 将对象的引用保存到一个由锁保护的域中
-    
+
+## 四、线程安全策略 
 ### 不可变对象
 不可变对象，一定是安全对象
 - 满足条件
@@ -237,11 +238,53 @@ public class Escape {
 - 举例
     - Collections.unmodifiableXXX:Collection、List、Set、Map
     - Guava: ImmutableXXX:Collection、List、Set、Map
-### 线程不安全和写法
+### 线程封闭
+- 堆栈封闭：局部变量，没有并发问题
+- ThreadLocal 线程封闭：特别好的封闭方法（可以读读源码）
+### 线程不安全类 和 写法 举例
+- StringBuffer 安全 | StringBuilder 不安全
+- JodaTime 安全     | SimpleDateFormat 不安全
+- ArrayList、HashSet、HashMap 等 Collections
 
-    
-## 四、线程安全策略 
+### 线程安全 - 同步容器
+- ArrayList -> Vector ,Stack
+- HashMap -> HashTable （key、value不能为 null）
+- Collections.synchronizedXXX(List、Set、Map)
+
+### 线程安全 - 并发容器 J.U.C
+1. ArrayList -> CopyOnWriteArrayList（适合读多写少的场景，慎用）
+2. HashSet、TreeSet -> CopyOnWriteArraySet ConcurrentSkipListSet
+3. HashMap、TreeMap -> ConcurrentHashMap ConcurrentSkipListMap
+安全共享对象策略 - 总结：
+- 线程限制：一个被线程限制的对象，由线程独占，而且只能被占有它的线程修改
+- 共享只读：一个共享只读的对象，在没有额外同步的情况下，可以被多个线程并发访问，但是任何线程都不能修改它
+- 线程安全对象：一个线程安全的对象或容器，在内部通过同步机制来保证线程安全，所以其他线程无需额外的同步就可以通过公共接口随意访问它
+- 被守护对象：被守护对象只能通过获取特定的锁来访问
+
 ## 五、J.U.C之AQS
+### １、简介
+AbstractQueuedSynchronizer - AQS
+![AQS内部结构](./image/AQS.png)
+- 子类通过继承并通过实现它的方法管理其状态（acquire 和 release）方法操作状态
+- 可以同时实现排它锁和共享锁模式（独占、共享）
+### 2、AQS同步组件
+- CountDownLatch（闭锁）
+![](./image/CountDownLatch流程.png)
+应用场景：
+    比如，想要计算邻接表里的节点个数，每条链表拥有自己的线程进行计算，最后汇总，这样就会提高了统计速度
+    说白了，一个线程等待其他一个或者几个线程完成后才执行
+- Semaphore（计数信号量）
+应用场景：
+    Semaphore可以用于做流量控制，特别公用资源有限的应用场景，
+    比如数据库连接。假如有一个需求，要读取几万个文件的数据，因为都是IO密集型任务，我们可以启动几十个线程并发的读取，
+    但是如果读到内存后，还需要存储到数据库中，而数据库的连接数只有10个，这时我们必须控制只有十个线程同时获取数据库连接保存数据，
+    否则会报错无法获取数据库连接。这个时候，我们就可以使用Semaphore来做流控
+    
+- CyclicBarrier
+- ReentrantLock
+- Condition
+- FutureTask
+
 ## 六、JUC组件拓展
 ## 七、线程调度-线程池
 ## 八、多线程并发拓展

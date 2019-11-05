@@ -32,5 +32,4 @@ public class AtomicLong {
         countDownLatch.await();
         System.out.println(count);
     }
-
 }
