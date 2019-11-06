@@ -91,7 +91,7 @@
     通过加入内存屏障 和 禁止重排序优化来实现
         - 对 volatile变量写操作时，会在写操作后加入一条store屏障指令，将本地内存中的共享变量刷新到主内存中
         - 对 volatile变量读操作时，会在读操作前加入一条load屏障指令，从主内存中读取共享变量
-        ![](./image/volatile%20写.png)
+          ![](./image/volatile%20写.png)
 
 - 有序性
     - 介绍：
@@ -159,7 +159,7 @@ public class Escape {
     // 3.instance = memory 设置instance指向刚分配的内存
 
     // JVM 和 CPU指令重排的出现导致 不安全
-  
+    
    // 单例对象（懒汉式） volatile +　双重检测机制　来实现　禁止指令重排　从而　得到安全线程
     public synchronized static SingletonDemo1 getInstance() {
         if (instance == null) { // 双重检测机制
@@ -171,8 +171,8 @@ public class Escape {
         }
         return instance;
     }
-    ```
-     
+   ```
+   
      ==使用天然单利模式（枚举）* 强烈推荐使用==
     ```java
     public class SingletonDemo2 {
@@ -273,16 +273,24 @@ AbstractQueuedSynchronizer - AQS
 应用场景：
     比如，想要计算邻接表里的节点个数，每条链表拥有自己的线程进行计算，最后汇总，这样就会提高了统计速度
     说白了，一个线程等待其他一个或者几个线程完成后才执行
+  
 - Semaphore（计数信号量）
 应用场景：
     Semaphore可以用于做流量控制，特别公用资源有限的应用场景，
     比如数据库连接。假如有一个需求，要读取几万个文件的数据，因为都是IO密集型任务，我们可以启动几十个线程并发的读取，
     但是如果读到内存后，还需要存储到数据库中，而数据库的连接数只有10个，这时我们必须控制只有十个线程同时获取数据库连接保存数据，
     否则会报错无法获取数据库连接。这个时候，我们就可以使用Semaphore来做流控
-    
+  
 - CyclicBarrier
+
+  ![CyclicBarrier](./image/CyclicBarrier.png)
+
 - ReentrantLock
+    - 可以指定是公平锁还是非公平锁
+    - 提供一个Condition类，可以分组唤醒需要唤醒的线程
+    - 提供能够中断等待锁的机制，lock.lockInterruptibly()
 - Condition
+
 - FutureTask
 
 ## 六、JUC组件拓展
@@ -291,9 +299,54 @@ AbstractQueuedSynchronizer - AQS
 ## 九、高并发之扩容思路
 ## 十、高并发之缓存思路
 ## 十一、高并发之消息队列思路
+- 消息队列的好处
+    - 业务解耦
+    - 最终一致性
+    - 广播
+    - 错峰与流控
 ## 十二、高并发之应用拆分思路
+-  原则
+    - 业务优先
+    - 循序渐进
+    - 重构、分层
+    - 可靠测试（每一步都要有足够的测试）
+- 思考
+    - 应用之间通信：RPC（Dubbo）、消息队列
+    - 每个应用都有自己独立的数据库
+    - 避免事务操作跨应用
+- 应用拆分
+    - 服务化 Dubbo
+    ![](./image/Dubbo.png)
+    - 微服务 Spring Cloud
+    ![](./image/微服务.png)
+    
 ## 十三、高并发之应用限流思路
+- 背景
+限制一段时间内通过的流量
+- 限流算法
+    - 计数器法
+    ![](./image/计数器法.png)
+    - 滑动窗口法
+    ![](./image/滑动窗口.png)
+    - 漏桶算法（Leaky Bucket）
+    ![](./image/漏桶算法.png)
+    - 令牌桶算法（Token Bucket）
+    ![](./image/令牌桶算法.png)
 ## 十四、高并发之服务降级与服务熔断思路
+- 服务降级
+    - 服务降级分类
+        - 自动降级：超时、失败次数、故障、限流
+        - 人工降级：秒杀、大促销
+- 服务熔断
 ## 十五、高并发之数据库切库分库分表思路
+- 分表策略方案（mybatis 分表插件 shardbatis2.0）
+    - 横向分表
+    - 纵向分表
 ## 十六、高并发之高可用手段
+- 任务调度系统分布式：elastic-job + zookeeper
+- 主备切换：Apache curator + zookeeper 分布式锁实现
+- 监控报警机制
 ## 十七、课程总结
+![课程总结](./image/课程总结.png)
+![并发和并发的线程安全处理](./image/并发和并发的线程安全处理.png)
+![高并发处理思路](./image/高并发处理思路.png)

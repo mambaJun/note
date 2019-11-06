@@ -1,4 +1,5 @@
 package com.jun.demo.high_concurrency.code.aqs;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
@@ -19,9 +20,9 @@ public class SemaphoreDemo1 {
             final int testNum = i;
             pool.execute(() -> {
                 try {
+                    semaphore.acquire();
                     test(testNum);
                     semaphore.release();
-                    semaphore.acquire();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
