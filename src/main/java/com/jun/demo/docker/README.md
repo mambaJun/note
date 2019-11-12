@@ -232,5 +232,58 @@ $ docker run -it images_name
     - CMD/ENTRYPOINT 镜像案例
     - 自定义镜像 Tomcat9
 - 小总结
+![](./image/小总结.png)
 ## 七、Docker常用安装
-## 八、本地镜像发布到阿里云
+- 总体步骤
+- 安装 tomcat
+- 安装 MySQL
+    ```shell script
+  docker run -p 3306:3306 --name local_mysql 
+  -v /opt/mysql/conf:/etc/mysql/conf 
+  -v /opt/mysql/logs:/logs 
+  -v /opt/mysql/data:/var/lib/mysql 
+  -e MYSQL_ROOT_PASSWORD=root 
+  -d mysql:5.7
+    ```
+  和 MySQL进行交互
+  ```shell script
+  docker exec -it 2a95e24f4184 /bin/bash
+  ```
+  导出数据库数据到数据卷
+  ```shell script
+  exec mysqldump --all-databases -uroot -proot > /logs/all-databases.sql
+  ```
+- 安装 redis
+```shell script
+docker run -p 6379:6379 --name redis_01
+-v /opt/redis/data:/redis/data 
+-v /opt/redis/conf:/usr/local/etc/redis/redis.conf 
+-d redis 
+redis-server 
+/usr/local/etc/redis/redis.conf 
+--appendonly yes
+```          
+```shell script
+docker exec -it feed1bbcfc7d redis-cli
+```
+## 八、本地镜像发布到阿里云 [阿里云开发者平台](https://dev.aliyun.com/search.html)
+- 本地镜像发布到阿里云流程
+    ![](./image/本地镜像发布到阿里云流程.png)      
+- 镜像的生成方法
+    1. Dockerfile
+    2. 从容器创建一个新的镜像
+    ```shell script
+   docker commit [OPTIONS]  容器ID [REPOSITORY[:TAG]]] 
+    docker commit -a Jun -m "commit demo" 2a95e24f4184 mysql:1.0
+    ```
+- 将本地镜像推送到阿里云
+    1. 本地镜像素材原型
+    2. 阿里云开发者平台
+        [阿里云开发者平台](https://dev.aliyun.com/search.html)
+    3. 创建仓库镜像
+        - 命名空间
+        - 仓库名称
+    4. 将镜像推送到registry
+    5. 公有云可以查询到
+    6.查看详情
+- 将阿里云的镜像下载到本地
