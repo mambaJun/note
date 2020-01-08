@@ -266,6 +266,15 @@ redis-server
 ```shell script
 docker exec -it feed1bbcfc7d redis-cli
 ```
+- 安装 nginx 
+```shell script
+docker run -p 80:80 --name nginx_1 
+-v /opt/nginx/conf:/etc/nginx/conf.d/ 
+-v /opt/nginx/logs:/var/log/nginx/ 
+-v /opt/nginx/cache:/var/cache/nginx/ 
+-v /opt/nginx/project:/usr/share/nginx/ 
+-d nginx
+```
 ## 八、本地镜像发布到阿里云 [阿里云开发者平台](https://dev.aliyun.com/search.html)
 - 本地镜像发布到阿里云流程
     ![](./image/本地镜像发布到阿里云流程.png)      
