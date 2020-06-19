@@ -13,38 +13,21 @@ import java.util.*;
 class Solution {
 
     public static void main(String[] args) {
-        int[] nums = {-1, 0, 1, 2, -1, -4};
-        List<List<Integer>> result = threeSum(nums);
-        for (List<Integer> list : result) {
-            for (Integer integer : list) {
-                System.out.printf(integer + " ");
-            }
-            System.out.println();
-        }
-    }
+        int[][] a1 = new int[2][2];
+        int[][] a2 = new int[2][2];
 
-    public static List<List<Integer>> threeSum(int[] nums) {
-        final int target = 0;
-        List<List<Integer>> result = new LinkedList<>();
-        Arrays.sort(nums);
-        int[] newNums = new int[nums.length];
-        newNums[0] = nums[0];
-        int index = 0;
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] != newNums[index]) {
-                newNums[++index] = nums[i];
+        for (int i = 0; i < a1.length; i++) {
+            for (int j = 0; j < a1[0].length; j++) {
+                a1[i][j] = i * j;
+                a2[i][j] = i * j;
             }
         }
-        for (int i = 0; i < index - 1; i++) {
-
-        }
-        return result;
+        System.out.println(Arrays.deepToString(a1));
+        System.out.println(Arrays.deepToString(a2));
+        System.out.println(Arrays.deepEquals(a1, a2));
+        a2[1][1] = 10;
+        Arrays.sort
+        System.out.println(Arrays.deepEquals(a1, a2));
     }
 
-    private static void listNums(int[] nums) {
-        for (int num : nums) {
-            System.out.printf(num + " ");
-        }
-        System.out.println();
-    }
 }
